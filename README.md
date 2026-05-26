@@ -60,7 +60,7 @@ Black-box implementation of R functions is discouraged throughout this guide. In
 
 Vasiliki Tsoumpanou  
 Email: vasiliki.tsoumpanou@gmail.com  
-GitHub: vtsoumpanou
+GitHub: [vtsoumpanou](https://github.com/vtsoumpanou)
 
 # Acknowledgements
 
