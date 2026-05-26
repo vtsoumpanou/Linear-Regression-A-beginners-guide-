@@ -1,0 +1,340 @@
+#===============================================================================
+# Linear Regression: A Beginner's Guide       ==================================
+#===============================================================================
+
+# Install packages
+install.packages("car", "lmtest")
+
+# Load libraries
+library(car)
+library(lmtest) # VIF and residual diagnostics
+
+# Load the built-in dataset
+
+# In case the data are in a csv file
+# df <- read.csv("dynamic_patH")
+data(mtcars)
+cars <- mtcars[, -c(5, 7, 8, 10, 11)]  #for simplicity we trim the dataset
+
+# First 6 rows
+head(cars)
+
+#===============================================================================
+# 1. Data Validation & Visualisation        ====================================
+#===============================================================================
+
+# MISSING VALUES CHECK
+# Missing values per column
+colSums(is.na(cars))
+
+# Which rows have missing values
+which(is.na(cars))
+
+# Column names
+names <- colnames(cars)
+names
+
+# SUMMARY STATISTICS
+# Identify quantitative variables (mean, sd, var, histograms, boxplots)
+# vs categorical variables (frequency tables, median, quantiles,
+# barplot)
+
+# Select individual variables using the $ symbol
+mpg <- mtcars$mpg
+cyl <- mtcars$cyl
+disp <- mtcars$disp
+hp <- mtcars$hp
+wt <- mtcars$wt
+am <- mtcars$am
+
+# mpg, disp, hp, wt are quantitative (continuous) variables
+# cyl, am are qualitative (categorical) variables
+
+# Frequency table for cylinders
+cyl_freq <- table(cyl)
+cyl_freq
+
+# Bar plot
+barplot(
+  cyl_freq,
+  main = "Distribution of Cylinders",
+  xlab = "Number of Cylinders",
+  ylab = "Frequency",
+  col = "steelblue"
+)
+
+# Frequency table for am
+am_freq <- table(am)
+am_freq
+
+# Bar plot
+barplot(
+  am_freq,
+  main = "Distribution of Transmission type",
+  xlab = "Transmission Type",
+  ylab = "Frequency",
+  col = "steelblue"
+)
+# Statistics for quantitative variables
+mean(mpg)
+mean(disp)
+mean(hp)
+mean(wt)
+# Or use: colMeans(cars[, 1:4])
+
+# Divide display into 4 columns for side-by-side plots
+par(mfrow = c(1, 4))
+
+# Histograms with density curves
+# Histogramms by default provide frequencies and not densities.
+# In order to fit density lines use: freq = FALSE
+hist(
+  mpg,
+  main = "MPG",
+  breaks = 10,
+  col = "steelblue",
+  freq = FALSE
+)
+lines(density(mpg), col = "red")
+
+hist(
+  disp,
+  main = "Displacement",
+  breaks = 10,
+  col = "steelblue",
+  freq = FALSE
+)
+lines(density(disp), col = "red")
+
+hist(
+  hp,
+  main = "Horsepower",
+  breaks = 10,
+  col = "steelblue",
+  freq = FALSE
+)
+lines(density(hp), col = "red")
+
+hist(
+  wt,
+  main = "Weight",
+  breaks = 10,
+  col = "steelblue",
+  freq = FALSE
+)
+lines(density(wt), col = "red")
+
+# Boxplots
+# Boxplot identifies outliers visually
+par(mfrow = c(1, 4))
+boxplot(mpg, main = "MPG")
+boxplot(disp, main = "Displacement")
+boxplot(hp, main = "Horsepower")
+boxplot(wt, main = "Weight")
+
+
+# Pairwise scatter plots
+pairs(cars[, c("mpg", "hp", "wt", "disp")], main = "Scatterplot Matrix")
+
+
+# Assumption Checks (Normality)
+# Shapiro-Wilk Normality Test (Without a Function)}
+
+# We test each quantitative variable separately.
+# The null hypothesis  is that the data comes from a normal distribution.
+# shapiro.test() provides the value of the test statistic W and a p-value.
+
+# Test for MPG (Y variable)
+shapiro.test(mpg)
+
+# Interpretation:
+# If p-value > 0.05 → fail to reject H0 → data is normally distributed
+# If p-value < 0.05 → reject H0 → data is not normally distributed
+
+# Test for Displacement (X variable)
+shapiro.test(disp)
+
+# Test for Horsepower (X variable)
+shapiro.test(hp)
+
+# Test for Weight (X variable)
+shapiro.test(wt)
+
+#===============================================================================
+# 2. Fitting a Simple Linear Regression Model        ===========================
+#===============================================================================
+
+# Fit linear model for wt
+m1 <- lm(mpg ~ wt)
+
+# View results
+summary(m1)
+
+# Extract model components
+bhat_1 <- m1$coefficients      # Estimated coefficients
+ehat_1 <- m1$residuals          # Residuals (errors)
+yhat_1 <- m1$fitted.values      # Fitted (predicted) values
+stdehat_1 <- rstandard(m1)      # Standardized residuals
+
+# Scatter plot with regression line
+plot(
+  wt,
+  mpg,
+  main = "MPG vs Weight with Regression Line",
+  xlab = "Weight (1000 lbs)",
+  ylab = "MPG",
+  pch = 19,
+  col = "steelblue"
+)
+lines(wt, yhat_1, col = "red", lwd = 2)
+
+
+# Fit linear model for hp
+m2 <- lm(mpg ~ hp)
+
+# View results
+summary(m2)
+
+# Extract model components
+bhat_2 <- m2$coefficients      # Estimated coefficients
+ehat_2 <- m2$residuals          # Residuals (errors)
+yhat_2 <- m2$fitted.values      # Fitted (predicted) values
+stdehat_2 <- rstandard(m2)      # Standardized residuals
+
+# Scatter plot with regression line
+plot(
+  hp,
+  mpg,
+  main = "MPG vs Weight with Regression Line",
+  xlab = "Horsepower",
+  ylab = "MPG",
+  pch = 19,
+  col = "steelblue"
+)
+lines(hp, yhat_2, col = "red", lwd = 2)
+
+
+#===============================================================================
+# 3. Fitting Multiple Regression Models         ================================
+#===============================================================================
+
+# Null model (intercept only)
+m0 <- lm(mpg ~ 1, data = cars)
+summary(m0)
+
+
+# Full model (all candidate predictors)
+m <- lm(mpg ~ wt + hp + cyl + am, data = cars)
+summary(m)
+
+# Model Selection
+
+step(
+  m0,
+  scope = list(lower = formula(m0), upper = formula(m)),
+  direction = "forward",
+  k = 2
+) #AIC
+
+step(
+  m0,
+  scope = list(lower = formula(m0), upper = formula(m)),
+  direction = "forward",
+  k = log(nrow(cars))
+) #BIC
+
+# Best model based on stepwise selection (AIC)
+# From stepwise output, the best model is: mpg ~ wt + cyl + hp
+best_fit <- lm(mpg ~ wt + cyl + hp, data = cars)
+summary(best_fit)
+
+# Confidence Intervals for coefficients (95%)
+confint(best_fit, level = 0.95)
+
+# Residual Diagnostics
+# Extract residuals and fitted values
+fitted <- best_fit$fitted.values
+res <- best_fit$residuals
+
+# Homoscedasticity Check
+par(mfrow = c(1, 1))
+plot(
+  x = fitted,
+  y = res,
+  main = "Residuals vs Fitted Values",
+  xlab = "Fitted Values",
+  ylab = "Residuals",
+  pch = 20,
+  col = "steelblue"
+)
+abline(h = 0, col = "red", lwd = 2)
+
+# Breusch-Pagan test for heteroscedasticity
+# H0: Homoscedasticity (constant variance)
+# H1: Heteroscedasticity (non-constant variance)
+bptest(best_fit)
+
+# Normality Check
+par(mfrow = c(1, 3))
+
+# Histogram of residuals
+hist(res,
+     main = "Histogram of Residuals",
+     xlab = "Residuals",
+     col = "steelblue")
+
+# Boxplot of residuals
+boxplot(res,
+        main = "Boxplot of Residuals",
+        ylab = "Residuals",
+        col = "steelblue")
+
+# Q-Q plot
+qqnorm(res, main = "Q-Q Plot of Residuals", col = "steelblue")
+qqline(res, col = "red", lwd = 2)
+
+# Shapiro-Wilk test for normality
+# H0: Residuals are normally distributed
+# H1: Residuals are not normally distributed
+shapiro.test(res)
+
+
+#===============================================================================
+# 4. ANOVA                             =========================================
+#===============================================================================
+# Ensure categorical variables are factors
+cars$cyl <- as.factor(cars$cyl)
+cars$am <- as.factor(cars$am)
+
+# Fit two-way ANOVA model with interaction
+# for mpg (response) with factors cyl and am
+
+# Note that we have multiple observations per treatment --> hence we can assume
+# the two-way model WITH interaction
+anov <- aov(mpg ~ cyl * am, data = cars)
+summary(anov)
+
+# Notice that the interaction term, "cyl:am" is not statistically significant
+# Reduce to two-way ANOVA model with NO interaction
+anov2 <- aov(mpg ~ cyl + am, data = cars)
+summary(anov2)
+
+# am factor also not statistically significant
+# Reduce to one-way ANOVA with factor cyl
+anov3 <- aov(mpg ~ cyl, data = cars)
+summary(anov3)
+
+# Post-hoc test: which cylinders differ?
+TukeyHSD(anov3)
+
+# Normality of residuals
+resid <- anov3$residuals
+par(mfrow = c(1, 2))
+qqnorm(resid, main = "Q-Q Plot of Residuals", col = "steelblue")
+qqline(resid, col = "red", lwd = 2)
+hist(resid, main = "Histogram of Residuals", col = "steelblue")
+
+shapiro.test(resid)
+
+# Check homogeneity of variances
+bartlett.test(mpg ~ cyl, data = cars)
