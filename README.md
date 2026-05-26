@@ -45,22 +45,7 @@ Throughout this guide, you will learn how to:
 3. Diagnose model assumptions using residual plots and statistical tests
 4. Perform model selection using stepwise methods and information criteria (AIC, BIC)
 5. Conduct one-way and two-way ANOVA with interaction effects
-6. Interpret every number that appears in R's output```
-
-# Project Structure
-
-linear-regression-r-beginner/
-├── data/
-│   └── prestige.txt          # example dataset
-├── scripts/
-│   ├── 01_data_validation.R
-│   ├── 02_simple_regression.R
-│   ├── 03_multiple_regression.R
-│   └── 04_anova.R
-├── outputs/
-│   └── plots/                # generated visualizations
-├── Linear_Regression_in_R_Basics_VT.pdf   # full guide
-├── README.md
+6. Interpret every number that appears in R's output
 
 # Rationale
 
@@ -75,7 +60,7 @@ Black-box implementation of R functions is discouraged throughout this guide. In
 
 Vasiliki Tsoumpanou  
 Email: vasiliki.tsoumpanou@gmail.com  
-GitHub: v.tsoumpanou
+GitHub: vtsoumpanou
 
 # Acknowledgements
 
