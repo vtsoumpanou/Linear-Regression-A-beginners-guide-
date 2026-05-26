@@ -4,15 +4,6 @@
 
 This guide serves as an introduction to linear regression and analysis of variance (ANOVA) using R, specifically designed for readers with little to no prior experience in statistical computing. The primary goal is not to exhaustively cover every theoretical detail, but rather to build practical intuition through hands-on examples, clear code, and meaningful interpretation of results.
 
-# Table of Contents
-
--About
--Who is this for
--Installation
--What to expect
--Project Structure
--Rationale
--Contact
 
 # About
 
