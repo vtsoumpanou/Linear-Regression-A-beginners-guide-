@@ -1,49 +1,36 @@
-# Project Name
+# Linear Regression in R: A Beginner's Guide
 
-A short description of what this project does and who it is for.
+"All models are wrong, but some are useful" — George E. P. Box
 
-## Table of Contents
+This guide serves as an introduction to linear regression and analysis of variance (ANOVA) using R, specifically designed for readers with little to no prior experience in statistical computing. The primary goal is not to exhaustively cover every theoretical detail, but rather to build practical intuition through hands-on examples, clear code, and meaningful interpretation of results.
 
-* [About](#about)
-* [Features](#features)
-* [Tech Stack](#tech-stack)
-* [Installation](#installation)
-* [Usage](#usage)
-* [Project Structure](#project-structure)
-* [Screenshots](#screenshots)
-* [Contributing](#contributing)
-* [License](#license)
-* [Contact](#contact)
+# Table of Contents
 
-## About
+-About
+-Who is this for
+-Installation
+-What to expect
+-Project Structure
+-Rationale
+-Contact
 
-Write a brief overview of your project here. Explain the problem it solves, why you built it, and what makes it useful.
+# About
 
-Example:
+This project is a beginner-friendly guide to linear regression and ANOVA in R. It walks readers through the entire workflow: loading data, validating assumptions, fitting simple and multiple regression models, performing model selection using information criteria (AIC, BIC), conducting ANOVA with interaction effects, and diagnosing residuals.
 
-> This project is a simple web application that helps users manage daily tasks, organize priorities, and track progress.
+All code presented is fully reproducible. Readers are strongly encouraged to run each example themselves and experiment with modifications.
 
-## Features
+# Who is this for
 
-* Easy-to-use interface
-* Fast and responsive design
-* User-friendly setup
-* Customizable configuration
-* Open-source and beginner-friendly
+This guide is intended for readers who:
 
-## Tech Stack
+- Have basic knowledge of statistics (mean, variance, hypothesis testing)
+- Want to learn how to implement linear models in R
+- Seek to understand what the output means and how to validate it
 
-Replace these with the technologies used in your project.
-
-* **Frontend:** HTML, CSS, JavaScript
-* **Backend:** Node.js, Express
-* **Database:** MongoDB
-* **Tools:** Git, GitHub, VS Code
-
-## Installation
+# Installation
 
 Follow these steps to run the project locally.
-
 ```bash
 # Clone the repository
 git clone https://github.com/your-username/your-repository.git
@@ -58,83 +45,47 @@ npm install
 npm start
 ```
 
-## Usage
+# What To Expect
 
-Explain how to use your project after installation.
+Throughout this guide, you will learn how to:
 
-```bash
-npm start
-```
+1. Load, inspect, and validate real-world datasets
+2. Fit simple and multiple linear regression models
+3. Diagnose model assumptions using residual plots and statistical tests
+4. Perform model selection using stepwise methods and information criteria (AIC, BIC)
+5. Conduct one-way and two-way ANOVA with interaction effects
+6. Interpret every number that appears in R's output```
 
-Then open your browser and go to:
+# Project Structure
 
-```text
-http://localhost:3000
-```
+linear-regression-r-beginner/
+├── data/
+│   └── prestige.txt          # example dataset
+├── scripts/
+│   ├── 01_data_validation.R
+│   ├── 02_simple_regression.R
+│   ├── 03_multiple_regression.R
+│   └── 04_anova.R
+├── outputs/
+│   └── plots/                # generated visualizations
+├── Linear_Regression_in_R_Basics_VT.pdf   # full guide
+├── README.md
 
-## Project Structure
+# Rationale
 
-```text
-your-repository/
-├── src/
-│   ├── components/
-│   ├── pages/
-│   └── assets/
-├── public/
-├── package.json
-└── README.md
-```
+Black-box implementation of R functions is discouraged throughout this guide. Instead, we emphasize:
 
-## Screenshots
+- Checking assumptions before trusting conclusions
+- Understanding what each line of code actually does
+- Visualizing data and residuals whenever possible
+- Questioning results rather than accepting them blindly
 
-Add screenshots or GIFs of your project here.
+# Contact
 
-```markdown
-!\[App Screenshot](./screenshots/screenshot.png)
-```
+Vasiliki Tsoumpanou  
+Email: vasiliki.tsoumpanou@gmail.com  
+GitHub: v.tsoumpanou
 
-## Contributing
+# Acknowledgements
 
-Contributions are welcome!
-
-To contribute:
-
-1. Fork the repository.
-2. Create a new branch.
-
-```bash
-git checkout -b feature/your-feature-name
-```
-
-3. Make your changes.
-4. Commit your changes.
-
-```bash
-git commit -m "Add your message here"
-```
-
-5. Push to your branch.
-
-```bash
-git push origin feature/your-feature-name
-```
-
-6. Open a pull request.
-
-## License
-
-This project is licensed under the MIT License.
-
-You can replace this section with the license that applies to your project.
-
-## Contact
-
-Your Name  
-Email: your.email@example.com  
-GitHub: [your-username](https://github.com/your-username)
-
-## Acknowledgements
-
-* Thanks to everyone who contributed to this project.
-* Inspired by open-source community projects.
-
+-Inspired by the Linear Models course material from Prof. Loukia Meligkotsidou and the lab sessions with Dr. Ioannis        Oikonomidis at the Department of Mathematics, National and Kapodistrian University of Athens.
